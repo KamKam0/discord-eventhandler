@@ -18,7 +18,7 @@ module.exports = async (bot, interaction, Langue) => {
 
 
     if(interaction.custom_id === "Response_ticket_button"){
-      const Discord = require("Discord.js")
+      const Discord = require("@kamkam1_0/discord.js")
       const TextInput = new Discord.TextInput()
       .setCustomID("Feedback_answer_content")
       .setLabel("Contenu de votre réponse au feedback")
@@ -48,7 +48,7 @@ module.exports = async (bot, interaction, Langue) => {
 
 
     if(interaction.custom_id === "help_right" || interaction.custom_id === "help_left"){
-      const Discord = require("Discord.js")
+      const Discord = require("@kamkam1_0/discord.js")
       if(Date.now() - new Date(interaction.message.timestamp) >= 300000){
         let buttonleft = new Discord.Button()
         .setCustomID("help_left")
@@ -116,7 +116,7 @@ module.exports = async (bot, interaction, Langue) => {
   }
   if(interaction.isForm){
     if(interaction.custom_id === "Modal Feedback"){
-      const Discord = require("Discord.js")
+      const Discord = require("@kamkam1_0/discord.js")
       let feedback = interaction.components.find(e => e.components[0].custom_id === "Feedback_content").components[0].value
       let c = bot.channels.get(bot.config.general["fbackchannel"])
         if(!c){
@@ -140,7 +140,7 @@ module.exports = async (bot, interaction, Langue) => {
         interaction.success(Langue["feedback_6"]).catch(err =>{})
     }
     if(interaction.custom_id === "Modal Feedback Answer"){
-      const Discord = require("Discord.js")
+      const Discord = require("@kamkam1_0/discord.js")
       let content = interaction.components.find(e => e.components[0].custom_id === "Feedback_answer_content").components[0].value
 
       let embed = new Discord.Embed()

@@ -1,5 +1,5 @@
 module.exports = async(bot) =>{
-  const Discord = require("Discord.js")
+  const Discord = require("@kamkam1_0/discord.js")
   
   let vraitestdate = Date.now()
 
