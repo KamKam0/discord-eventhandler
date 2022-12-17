@@ -19,7 +19,7 @@ module.exports = async(bot) =>{
     })
   })
   
-  let User = bot.users.find(us => us.id === bot.config.general["ID créateur"])
+  let User = bot.users.find(us => us.id === bot.config.general["ID createur"])
   if(User){
     let renduembed = new Discord.Embed()
     .setTitle("Démarrage du bot")

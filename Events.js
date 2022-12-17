@@ -66,7 +66,7 @@ class Handler{
         
         if(!event) return
 
-        let Langue = Find_Datas(datas, olddatas)
+        let Langue = Find_Datas(bot, datas, olddatas)
 
         if(!olddatas) event.execute(bot, datas, Langue)
         else event.execute(bot, datas, olddatas, Langue)
@@ -75,7 +75,7 @@ class Handler{
         
         if(!event2) return
 
-        let Langue2 = Find_Datas(this.bot, datas, olddatas)
+        let Langue2 = Find_Datas(bot, datas, olddatas)
 
         if(!olddatas) event2.execute(bot, datas, Langue2)
         else event2.execute(bot, datas, olddatas, Langue2)
@@ -86,17 +86,17 @@ function Find_Datas(bot, datas, olddatas){
 
     let Langue;
     if(datas){
-        if(datas.vguild_id) Langue = bot.langues.find(la => la.LangueCode === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
+        if(datas.vguild_id) Langue = bot.langues.find(la => la.Langue_Code === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
         else{
-            if(datas.locale === "fr") Langue = bot.langues.find(la => la.LangueCode === "fr")
-            else Langue = bot.langues.find(la => la.LangueCode === "en-US")
+            if(datas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
+            else Langue = bot.langues.find(la => la.Langue_Code === "en-US")
         }
     }
     if(!Langue && olddatas){
-        if(olddatas.vguild_id) Langue = require("../Discord.js").Langues[`${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`]
+        if(olddatas.vguild_id) Langue = bot.langues.find(la => la.Langue_Code === `${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`)
         else{
-            if(olddatas.locale === "fr") Langue = bot.langues.find(la => la.LangueCode === "fr")
-            else Langue = bot.langues.find(la => la.LangueCode === "en-US")
+            if(olddatas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
+            else Langue = bot.langues.find(la => la.Langue_Code === "en-US")
         }
     }
 

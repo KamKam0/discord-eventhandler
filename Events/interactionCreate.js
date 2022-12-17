@@ -5,7 +5,7 @@ module.exports = async (bot, interaction, Langue) => {
 
     if(interaction.custom_id === "kill"){
       bot.DeleteMessage(interaction.channel_id, interaction.message.id).catch(err => {})
-      if(interaction.user.id === bot.config.general["ID créateur"] && (Date.now() - Date.parse(new Date(interaction.message.timestamp).toUTCString())) < 15000){
+      if(interaction.user.id === bot.config.general["ID createur"] && (Date.now() - Date.parse(new Date(interaction.message.timestamp).toUTCString())) < 15000){
         interaction.info("Le bot s'éteint !", "send").then(() => process.exit()).catch(err => {})
       }else interaction.info("Le bot ne s'éteindra pas !", "send").catch(err => {})
     }
