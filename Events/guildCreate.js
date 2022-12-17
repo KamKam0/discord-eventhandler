@@ -14,7 +14,7 @@ module.exports = async (bot, guild) =>{
         {name: "Nombre de serveur", value: `${bot.guilds.length}`, inline: true}
       ])
       .setColor('GREEN')
-      bot.channels.get(bot.config["Général"]["logcha"]).send({embeds: [logembed]}).catch(err => {})
+      bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
         const bdd = bot.config
         let embed = new Discord.Embed()
         .setTitle(Langue["Hello everyone !"])

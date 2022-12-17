@@ -3,9 +3,9 @@ module.exports = async(bot) =>{
   
   let vraitestdate = Date.now()
 
-  if(bot.config["Général"]["presence_channel"] && bot.channels.get(bot.config["Général"]["presence_channel"])){
+  if(bot.config.general["presence_channel"] && bot.channels.get(bot.config.general["presence_channel"])){
     setInterval(() => {
-      bot.SendMessage(bot.config["Général"]["presence_channel"], {content: "<@867402024097939476> message connexion #A001"})
+      bot.SendMessage(bot.config.general["presence_channel"], {content: "<@867402024097939476> message connexion #A001"})
     }, 5000)
   }
   
@@ -19,7 +19,7 @@ module.exports = async(bot) =>{
     })
   })
   
-  let User = bot.users.find(us => us.id === bot.config["Général"]["ID créateur"])
+  let User = bot.users.find(us => us.id === bot.config.general["ID créateur"])
   if(User){
     let renduembed = new Discord.Embed()
     .setTitle("Démarrage du bot")

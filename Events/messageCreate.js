@@ -8,7 +8,7 @@ module.exports = async (bot, message, Langue) =>{
         if(message.content.trim() === `<@!${bot.user.id}>` || message.content.trim() === `<@${bot.user.id}>`){
             if(!bot.cooldown.GetCooldown("mention").GetUser(message.user_id)){
                 
-                if(message.user.id !== bot.config["Général"]["ID créateur"]) bot.cooldown.GetCooldown("mention").AddUser({id: message.user.id, time: 10, date: Date.now()})
+                if(message.user.id !== bot.config.general["ID créateur"]) bot.cooldown.GetCooldown("mention").AddUser({id: message.user.id, time: 10, date: Date.now()})
                 
                 message.reply({content: Langue["msg1"]})
             }

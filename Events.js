@@ -75,28 +75,28 @@ class Handler{
         
         if(!event2) return
 
-        let Langue2 = Find_Datas(datas, olddatas)
+        let Langue2 = Find_Datas(this.bot, datas, olddatas)
 
         if(!olddatas) event2.execute(bot, datas, Langue2)
         else event2.execute(bot, datas, olddatas, Langue2)
     }
 }
 
-function Find_Datas(datas, olddatas){
+function Find_Datas(bot, datas, olddatas){
 
     let Langue;
     if(datas){
-        if(datas.vguild_id) Langue = require("../Discord.js").Langues[`${datas.guild ? datas.guild.db_language : datas.db_language}`]
+        if(datas.vguild_id) Langue = bot.langues.find(la => la.LangueCode === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
         else{
-            if(datas.locale === "fr") Langue = require("../Discord.js").Langues["fr"]
-            else Langue = require("../Discord.js").Langues["eng"]
+            if(datas.locale === "fr") Langue = bot.langues.find(la => la.LangueCode === "fr")
+            else Langue = bot.langues.find(la => la.LangueCode === "en-US")
         }
     }
     if(!Langue && olddatas){
         if(olddatas.vguild_id) Langue = require("../Discord.js").Langues[`${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`]
         else{
-            if(olddatas.locale === "fr") Langue = require("../Discord.js").Langues["fr"]
-            else Langue = require("../Discord.js").Langues["eng"]
+            if(olddatas.locale === "fr") Langue = bot.langues.find(la => la.LangueCode === "fr")
+            else Langue = bot.langues.find(la => la.LangueCode === "en-US")
         }
     }
 

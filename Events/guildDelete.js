@@ -10,5 +10,5 @@ module.exports = async (bot, guild) =>{
         {name: "Nombre de serveur", value: `${bot.guilds.length}`, inline: true}
     ])
     .setColor("RED")
-    bot.channels.get(bot.config["Général"]["logcha"]).send({embeds: [logembed]}).catch(err => {})
+    bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
 }

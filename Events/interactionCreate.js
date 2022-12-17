@@ -5,7 +5,7 @@ module.exports = async (bot, interaction, Langue) => {
 
     if(interaction.custom_id === "kill"){
       bot.DeleteMessage(interaction.channel_id, interaction.message.id).catch(err => {})
-      if(interaction.user.id === bot.config["Général"]["ID créateur"] && (Date.now() - Date.parse(new Date(interaction.message.timestamp).toUTCString())) < 15000){
+      if(interaction.user.id === bot.config.general["ID créateur"] && (Date.now() - Date.parse(new Date(interaction.message.timestamp).toUTCString())) < 15000){
         interaction.info("Le bot s'éteint !", "send").then(() => process.exit()).catch(err => {})
       }else interaction.info("Le bot ne s'éteindra pas !", "send").catch(err => {})
     }
@@ -118,7 +118,7 @@ module.exports = async (bot, interaction, Langue) => {
     if(interaction.custom_id === "Modal Feedback"){
       const Discord = require("Discord.js")
       let feedback = interaction.components.find(e => e.components[0].custom_id === "Feedback_content").components[0].value
-      let c = bot.channels.get(bot.config["Général"]["fbackchannel"])
+      let c = bot.channels.get(bot.config.general["fbackchannel"])
         if(!c){
             interaction.error(Langue["feedback_1"]).catch(err =>{})
             bot.SendMessage(bot.creator.channel_id, {content: Langue["feedback_2"]})
