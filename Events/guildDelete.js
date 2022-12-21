@@ -12,3 +12,5 @@ module.exports = async (bot, guild) =>{
     .setColor("RED")
     bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
 }
+
+module.exports.langues = require("../Utils/getLangues")()

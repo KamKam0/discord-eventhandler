@@ -43,3 +43,5 @@ module.exports = async (bot, guild) =>{
     }
   })
 }
+
+module.exports.langues = require("../Utils/getLangues")()

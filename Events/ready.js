@@ -36,4 +36,6 @@ module.exports = async(bot) =>{
     bot.SendMessage(bot.creator.channel_id, {embeds: [renduembed]})
     .catch(err => console.log(err))
   }
-}
+} 
+
+module.exports.langues = require("../Utils/getLangues")()

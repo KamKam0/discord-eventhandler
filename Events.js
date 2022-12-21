@@ -17,7 +17,7 @@ class Handler{
                 let name = de
                 if(name.includes(".")) name = name.split(".")[0]
                 if(this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase())) return "already exists"
-                const co = new Event(name, require(`./Events/${de}`))
+                const co = new Event(name, require(`./Events/${de}`), require(`./Events/${de}`).langues)
                 defaulte.push(co)
                 this.names.push(name)
             })
@@ -32,7 +32,7 @@ class Handler{
         if(this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase()) && !this.names.find(e => String(e).toLowerCase() === String(`${name}1`).toLowerCase())) name = `${name}1`
         else if(this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase()) && this.names.find(e => String(e).toLowerCase() === String(`${name}1`).toLowerCase())) return "both already exist"
         
-        const co = new Event(name, datas)
+        const co = new Event(name, datas, datas.langues)
         this.events.push(co)
         this.names.push(name)
     }
@@ -67,6 +67,9 @@ class Handler{
         if(!event) return
 
         let Langue = Find_Datas(bot, datas, olddatas)
+        
+        if(event.langues && event.langues.find(e => e.Langue_Code === Langue.Langue_Code)) Langue = event.langues.find(e => e.Langue_Code === Langue.Langue_Code)
+        
 
         if(!olddatas) event.execute(bot, datas, Langue)
         else event.execute(bot, datas, olddatas, Langue)
@@ -76,6 +79,8 @@ class Handler{
         if(!event2) return
 
         let Langue2 = Find_Datas(bot, datas, olddatas)
+        
+        if(event.langues && event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)) Langue2 = event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)
 
         if(!olddatas) event2.execute(bot, datas, Langue2)
         else event2.execute(bot, datas, olddatas, Langue2)
