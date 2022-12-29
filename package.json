@@ -1,6 +1,6 @@
 {
   "name": "@kamkam1_0/discord-eventhandler",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,6 @@
   "dependencies": {
     "fs": "^0.0.1-security",
     "@kamkam1_0/discord.js": "^3.3.9",
-    "@kamkam1_0/ms": "1.0.2"
+    "@kamkam1_0/ms": "^1.0.2"
   }
 }
