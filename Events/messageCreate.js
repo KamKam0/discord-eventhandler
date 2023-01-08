@@ -3,7 +3,7 @@ module.exports = async (bot, message, Langue) =>{
     //////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////Mention//////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
-    if(message.content.startsWith(`<@!${bot.user.id}>`) || message.content.startsWith(`<@${bot.user.id}>`)){
+    if(message.content) if(message.content.startsWith(`<@!${bot.user.id}>`) || message.content.startsWith(`<@${bot.user.id}>`)){
             
         if(message.content.trim() === `<@!${bot.user.id}>` || message.content.trim() === `<@${bot.user.id}>`){
             if(!bot.cooldown.GetCooldown("mention").GetUser(message.user_id)){
