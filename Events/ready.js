@@ -14,7 +14,7 @@ module.exports = async(bot) =>{
   console.log("Bot Online !")
 
   if(bot.sql) bot.sql.query(`SELECT * FROM general`, function(err, guilds){
-    bot.guilds.map(guild => guild.vguild_id).filter(guild => !guilds.find(g2 => g2.ID === guild)).forEach(g => {
+    bot.guilds.map(guild => guild.id).filter(guild => !guilds.find(g2 => g2.ID === guild)).forEach(g => {
       bot.sql.query(`INSERT INTO general (ID, Language, guild_state) VALUES ('${g}', '${bot.default_language}', 'enable')`)
     })
   })

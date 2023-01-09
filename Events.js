@@ -91,14 +91,14 @@ function Find_Datas(bot, datas, olddatas){
 
     let Langue;
     if(datas){
-        if(datas.vguild_id) Langue = bot.langues.find(la => la.Langue_Code === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
+        if(datas.guild_id) Langue = bot.langues.find(la => la.Langue_Code === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
         else{
             if(datas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
             else Langue = bot.langues.find(la => la.Langue_Code === "en-US")
         }
     }
     if(!Langue && olddatas){
-        if(olddatas.vguild_id) Langue = bot.langues.find(la => la.Langue_Code === `${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`)
+        if(olddatas.guild_id) Langue = bot.langues.find(la => la.Langue_Code === `${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`)
         else{
             if(olddatas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
             else Langue = bot.langues.find(la => la.Langue_Code === "en-US")

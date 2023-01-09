@@ -1,6 +1,6 @@
 module.exports = async (bot, guild) =>{
     if(!bot.sql) return
-    bot.sql.query(`UPDATE general SET guild_state = 'disable' WHERE ID = '${guild.vguild_id}'`)
+    bot.sql.query(`UPDATE general SET guild_state = 'disable' WHERE ID = '${guild.id}'`)
     const Discord = require("@kamkam1_0/discord.js")
     let logembed = new Discord.Embed()
     .setTitle("Ancien Serveur")

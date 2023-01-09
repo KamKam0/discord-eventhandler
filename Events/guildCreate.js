@@ -4,7 +4,7 @@ module.exports = async (bot, guild) =>{
   /////////////////////////////////////////Add Base/////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////
   if(!bot.sql) return
-  bot.sql.query(`SELECT * FROM general WHERE ID = '${guild.vguild_id}'`, async function(err, result){
+  bot.sql.query(`SELECT * FROM general WHERE ID = '${guild.id}'`, async function(err, result){
     if(!result[0]){
       let logembed = new Discord.Embed()
       .setTitle("Nouveau Serveur")
@@ -29,9 +29,9 @@ module.exports = async (bot, guild) =>{
         
         let channel = guild.channels.find(ch => ch.type === "GUILD_TEXT")
         if(channel) channel.send({embeds: [embed]}).catch(err =>{ })
-        bot.sql.query(`INSERT INTO general (ID, Language, guild_state) VALUES ('${guild.vguild_id}', '${bot.default_language}', 'enable')`)
+        bot.sql.query(`INSERT INTO general (ID, Language, guild_state) VALUES ('${guild.id}', '${bot.default_language}', 'enable')`)
     }else{
-      bot.sql.query(`UPDATE general SET guild_state = 'enable' WHERE ID = '${guild.vguild_id}'`)
+      bot.sql.query(`UPDATE general SET guild_state = 'enable' WHERE ID = '${guild.id}'`)
         let embed = new Discord.Embed()
         .setTitle(Langue["Hello everyone !"])
         .setDescription(Langue["gui_cre_2"])
