@@ -92,22 +92,21 @@ class Handler{
 
 function Find_Datas(bot, datas, olddatas){
 
-    let Langue;
-    if(datas){
-        if(datas.guild_id) Langue = bot.langues.find(la => la.Langue_Code === `${datas.guild ? datas.guild.db_language : datas.db_language}`)
+    const analyse = (da) => {
+        let la;
+        if(da.guild_id) la = bot.langues.find(la => la.Langue_Code === `${da.guild ? da.guild.db_language : da.db_language}`)
         else{
-            if(datas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
-            else Langue = bot.langues.find(la => la.Langue_Code === "en-US")
+            if(da.locale && bot.langues.find(la => la.Langue_Code === da.locale)) la = bot.langues.find(la => la.Langue_Code === "fr")
+            else la = bot.langues.find(la => la.Langue_Code === "en-US")
         }
-    }
-    if(!Langue && olddatas){
-        if(olddatas.guild_id) Langue = bot.langues.find(la => la.Langue_Code === `${olddatas.guild ? olddatas.guild.db_language : olddatas.db_language}`)
-        else{
-            if(olddatas.locale === "fr") Langue = bot.langues.find(la => la.Langue_Code === "fr")
-            else Langue = bot.langues.find(la => la.Langue_Code === "en-US")
-        }
+        return la
     }
 
+    let Langue;
+
+    if(datas) Langue = analyse(datas)
+    if(!Langue && olddatas) Langue = analyse(olddatas)
+    
     return Langue
 }
 
