@@ -3,6 +3,7 @@ class Handler{
     constructor(bot, eventsar){
         this.bot = bot
         this.propositions = eventsar
+        this.presence = null
         this.names = []
         this.events = this.AutomaticAdd()
         this.bot_name = bot.name
@@ -43,8 +44,9 @@ class Handler{
         this.names.splice(this.names.indexOf(this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase())), 1)
     }
 
-    Deploy(){
+    Deploy(presence){
         if(this.state !== "undeployed") return
+        this.presence = presence
         this.state = "deployed"
         const fs = require("fs")
         if(fs.readdirSync(`${process.cwd()}`).includes("Handler")) if(fs.readdirSync(`${process.cwd()}/Handler`).includes("Events")) fs.readdirSync(`${process.cwd()}/Handler/Events`).filter(e => e!==".DS_Store").forEach(dir => {
@@ -63,8 +65,8 @@ class Handler{
 
     async Analyse(bot, datas, olddatas, type){
         let event = this.events.find(e => String(e.name).toUpperCase().replaceAll("_", "") === String(type).toUpperCase().replaceAll("_", ""))
-        
         if(!event) return
+        if(event.name === "ready") return event.execute(bot, this.presence)
 
         let Langue = Find_Datas(bot, datas, olddatas)
         
@@ -77,6 +79,7 @@ class Handler{
         let event2 = this.events.find(e => String(e.name).toUpperCase().replaceAll("_", "") === `${String(type).toUpperCase().replaceAll("_", "")}1`)
         
         if(!event2) return
+        if(event2.name === "ready") return event2.execute(bot, this.presence)
 
         let Langue2 = Find_Datas(bot, datas, olddatas)
         

@@ -1,15 +1,9 @@
-module.exports = async(bot) =>{
+module.exports = async(bot, presence) =>{
   const Discord = require("@kamkam1_0/discord.js")
   
   let vraitestdate = Date.now()
-
-  if(bot.config.general["presence_channel"] && bot.channels.get(bot.config.general["presence_channel"])){
-    setInterval(() => {
-      bot.SendMessage(bot.config.general["presence_channel"], {content: "<@867402024097939476> message connexion #A001"})
-    }, 5000)
-  }
   
-  setInterval(() => bot.SetPresence({status: "online", activities: [{type: "watching", name: "/help"}]}), 2 * 1000 * 60 * 60)
+  setInterval(() => bot.SetPresence(presence), 2 * 1000 * 60 * 60)
   
   console.log("Bot Online !")
 
