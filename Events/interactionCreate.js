@@ -15,7 +15,7 @@ module.exports = async (bot, interaction, Langue) => {
       const Modal = new Discord.Form()
       .setCustomID("Modal Feedback Answer")
       .setTitle("Feedback")
-      .AddTextInputs([TextInput])
+      .AddTextInputs(TextInput)
 
       let replacemente = new Discord.Embed()
       .setTitle(interaction.message.embeds[0].title)

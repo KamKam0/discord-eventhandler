@@ -21,11 +21,11 @@ module.exports = async(bot, presence) =>{
     .setFooterIconURL(User.avatarURL)
     .setTimestamp()
     .setThumbnail(bot.user.avatarURL)
-    .addFields([
+    .addFields(
       {name: "Durée du lancement", value: `${require("@kamkam1_0/ms")(Number(Date.now() - bot.discordjs.lancement))} ms`, inline: true},
       {name: "Durée des checks bot", value: `${require("@kamkam1_0/ms")(Number(Date.now() - vraitestdate))} ms`, inline: true},
       {name: "Mise en route", value: "Complète ✅", inline: true}
-    ])
+    )
     .setColor("#0eff27")
     bot.SendMessage(bot.creator.channel_id, {embeds: [renduembed]})
     .catch(err => console.log(err))
