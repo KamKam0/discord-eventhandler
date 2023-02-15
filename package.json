@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/KamKam0/eventhandler.git"
+    "url": "https://github.com/KamKam0/discord-eventhandler.git"
   },
   "bugs": {
-    "url": "https://github.com/KamKam0/eventhandler/issues"
+    "url": "https://github.com/KamKam0/discord-eventhandler/issues"
   },
   "keywords": ["Discordjs", "Events", "Handler"],
-  "homepage": "https://github.com/KamKam0/eventhandler",
+  "homepage": "https://github.com/KamKam0/discord-eventhandler",
   "author": "KamKam <kamkam.dev.contact@gmail.com>",
   "license": "BSD 2",
   "dependencies": {
