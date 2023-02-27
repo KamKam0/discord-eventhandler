@@ -48,7 +48,7 @@ class Handler{
         if(this.state !== "undeployed") return
         this.presence = presence
         this.state = "deployed"
-        const fs = require("fs")
+        const fs = require("node:fs")
         if(fs.readdirSync(`${process.cwd()}`).includes("Handler")) if(fs.readdirSync(`${process.cwd()}/Handler`).includes("Events")) fs.readdirSync(`${process.cwd()}/Handler/Events`).filter(e => e!==".DS_Store").forEach(dir => {
             let file = require(`${process.cwd()}/Handler/Events/${dir}`)
             this.AddEvent(dir.split(".")[0], file)
@@ -68,7 +68,7 @@ class Handler{
         if(!event) return
         if(event.name === "ready") return event.execute(bot, this.presence)
 
-        let Langue = Find_Datas(bot, datas, olddatas)
+        let Langue = this.#findLangue(bot, datas, olddatas)
         
         if(event.langues && event.langues.find(e => e.Langue_Code === Langue.Langue_Code)) Langue = event.langues.find(e => e.Langue_Code === Langue.Langue_Code)
         
@@ -81,33 +81,32 @@ class Handler{
         if(!event2) return
         if(event2.name === "ready") return event2.execute(bot, this.presence)
 
-        let Langue2 = Find_Datas(bot, datas, olddatas)
+        let Langue2 = this.#findLangue(bot, datas, olddatas)
         
         if(event.langues && event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)) Langue2 = event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)
 
         if(!olddatas) event2.execute(bot, datas, Langue2)
         else event2.execute(bot, datas, olddatas, Langue2)
     }
-}
 
-function Find_Datas(bot, datas, olddatas){
-
-    const analyse = (da) => {
-        let la;
-        if(da.guild_id) la = bot.langues.find(la => la.Langue_Code === `${da.guild ? da.guild.db_language : da.db_language}`)
-        else{
-            if(da.locale && bot.langues.find(la => la.Langue_Code === da.locale)) la = bot.langues.find(la => la.Langue_Code === "fr")
-            else la = bot.langues.find(la => la.Langue_Code === "en-US")
+    async #findLangue(bot, datas, olddatas){
+        let Langue;
+        const analyse = async (defdata) => {
+            if(datas.guild_id){
+                let datasGuild = (await bot.sql.select("general", {ID: datas.guild_id}))?.[0]
+                if(datasGuild) Langue = bot.langues.map(lan => lan.Langue_Code === datasGuild.Language)
+                else Langue = bot.langues.find(lan => lan.Langue_Code === bot.config.language)
+            }else if (datas.typee === "slash"){
+                Langue = bot.langues.find(lan => lan.Langue_Code === datas.locale)
+                if(!Langue) bot.langues.find(lan => lan.Langue_Code === bot.config.language)
+            }else Langue = bot.langues.find(lan => lan.Langue_Code === bot.config.language)
         }
-        return la
+
+        if(datas) Langue = analyse(datas)
+        if(!Langue && olddatas) Langue = analyse(olddatas)
+
+        return Langue
     }
-
-    let Langue;
-
-    if(datas) Langue = analyse(datas)
-    if(!Langue && olddatas) Langue = analyse(olddatas)
-    
-    return Langue
 }
 
 module.exports = Handler

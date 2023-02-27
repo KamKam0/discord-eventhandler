@@ -13,7 +13,7 @@ module.exports = async (bot, message, Langue) =>{
                 message.reply({content: Langue["msg1"]})
             }
                     
-        }else bot.handler.Analyse(bot, message, Langue)
+        }else bot.handler.Analyse(bot, message)
                 
     }
 }

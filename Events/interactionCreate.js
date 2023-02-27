@@ -1,5 +1,5 @@
-module.exports = async (bot, interaction, Langue) => {
-  if(interaction.isSlash) bot.handler.Analyse(bot, interaction, Langue)
+module.exports = async (bot, interaction) => {
+  if(interaction.isSlash) bot.handler.Analyse(bot, interaction)
   if(interaction.isButton){
     if(interaction.custom_id === "Response_ticket_button"){
       const Discord = require("@kamkam1_0/discord.js")

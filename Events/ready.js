@@ -3,7 +3,7 @@ module.exports = async(bot, presence) =>{
   
   let vraitestdate = Date.now()
   
-  setInterval(() => bot.SetPresence(presence), 1000 * 60 * 30)
+  setInterval(() => bot.setPresence(presence), 1000 * 60 * 30)
   
   console.log("Bot Online !")
 
