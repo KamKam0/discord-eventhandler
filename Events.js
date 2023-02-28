@@ -64,47 +64,40 @@ class Handler{
     }
 
     async Analyse(bot, datas, olddatas, type){
-        let event = this.events.find(e => String(e.name).toUpperCase().replaceAll("_", "") === String(type).toUpperCase().replaceAll("_", ""))
-        if(!event) return
-        if(event.name === "ready") return event.execute(bot, this.presence)
 
-        let Langue = this.#findLangue(bot, datas, olddatas)
-        
-        if(event.langues && event.langues.find(e => e.Langue_Code === Langue.Langue_Code)) Langue = event.langues.find(e => e.Langue_Code === Langue.Langue_Code)
-        
+        let events = this.events.filter(e => [String(type).toUpperCase().replaceAll("_", ""), `${String(type).toUpperCase().replaceAll("_", "")}1`].includes(String(e.name).toUpperCase().replaceAll("_", "")) )
+        events.filter(e => e).forEach(async event => {
+            if(!event) return
+            if(event.name === "ready") return event.execute(bot, this.presence)
 
-        if(!olddatas) event.execute(bot, datas, Langue)
-        else event.execute(bot, datas, olddatas, Langue)
-
-        let event2 = this.events.find(e => String(e.name).toUpperCase().replaceAll("_", "") === `${String(type).toUpperCase().replaceAll("_", "")}1`)
-        
-        if(!event2) return
-        if(event2.name === "ready") return event2.execute(bot, this.presence)
-
-        let Langue2 = this.#findLangue(bot, datas, olddatas)
-        
-        if(event.langues && event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)) Langue2 = event.langues.find(e => e.Langue_Code === Langue2.Langue_Code)
-
-        if(!olddatas) event2.execute(bot, datas, Langue2)
-        else event2.execute(bot, datas, olddatas, Langue2)
+            let Langue = await this.#findLangue(bot, datas, olddatas)
+            
+            if(event.langues && event.langues.length) Langue = event.langues.find(e => e.Langue_Code === Langue.Langue_Code) || event.langues.find(e => e.Langue_Code === bot.config.general.language) || event.langues.find(e => e.Langue_Code === "en-US")
+            
+            if(!olddatas) event.execute(bot, datas, Langue)
+            else event.execute(bot, datas, olddatas, Langue)
+        })
     }
 
+
     async #findLangue(bot, datas, olddatas){
-        let Langue;
         const analyse = async (defdata) => {
-            if(datas.guild_id){
-                let datasGuild = (await bot.sql.select("general", {ID: datas.guild_id}))?.[0]
-                if(datasGuild) Langue = bot.langues.map(lan => lan.Langue_Code === datasGuild.Language)
-                else Langue = bot.langues.find(lan => lan.Langue_Code === bot.config.language)
-            }else if (datas.typee === "slash"){
-                Langue = bot.langues.find(lan => lan.Langue_Code === datas.locale)
-                if(!Langue) bot.langues.find(lan => lan.Langue_Code === bot.config.language)
-            }else Langue = bot.langues.find(lan => lan.Langue_Code === bot.config.language)
+            let LangueIntern;
+            if(defdata?.guild_id){
+                let datasGuild = (await bot.sql.select("general", {ID: defdata.guild_id}).catch(err => {}))?.[0]
+                if(datasGuild) LangueIntern = bot.langues.find(lan => lan.Langue_Code === datasGuild.Language)
+                else LangueIntern = bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
+            }else if (defdata?.typee === "slash"){
+                LangueIntern = bot.langues.find(lan => lan.Langue_Code === defdata.locale)
+                if(!Langue) bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
+            }else LangueIntern = bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
+            return LangueIntern
         }
 
+        let Langue;
         if(datas) Langue = analyse(datas)
         if(!Langue && olddatas) Langue = analyse(olddatas)
-
+        
         return Langue
     }
 }
