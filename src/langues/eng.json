@@ -1,0 +1,18 @@
+{
+    "Langue": "English",
+    "Langue_Code": "en-US",
+    "gc_1": "My Discord support",
+    "gc_2": "My invite link",
+    "gc_3": "my help command",
+    "gc_4": "My language",
+    "gc_5": "If you need help, don't hesitate to join my discord by clicking",
+    "gc_6": "here",
+    "gc_7": "If you want to share",
+    "Roles Count": "Roles Count",
+    "gc_8": "my invit link",
+    "gc_9": "to allow others to enjoy my assets",
+    "gc_10": "If you want to know all my commands or to have help to execute them, you can execute !help command",
+    "gc_11": "You can change my language with /language [fr/eng]",
+    "Hello everyone !": "Hello everyone !",
+    "gui_cre_2": "Your language is saved ! You can execute the ``language`` command to change it !"
+}
