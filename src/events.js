@@ -88,7 +88,7 @@ class Handler{
         const analyse = async (defdata) => {
             let LangueIntern;
             if(defdata?.guild_id){
-                let datasGuild = (await bot.sql.select("general", {ID: defdata.guild_id}).catch(err => {}))?.[0]
+                let datasGuild = bot.sql ? (await bot.sql.select("general", {ID: defdata.guild_id}).catch(err => {}))?.[0] : null
                 if(datasGuild) LangueIntern = bot.langues.find(lan => lan.Langue_Code === datasGuild.Language)
                 else LangueIntern = bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
             }else if (defdata?.typee === "slash"){
