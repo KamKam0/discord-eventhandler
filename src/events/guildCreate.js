@@ -1,55 +1,29 @@
-module.exports = async (bot, guild) =>{
+module.exports = async (bot, guild, langue) =>{
   const Discord = require("@kamkam1_0/discord.js")
   let logembed = new Discord.Embed()
-  .setTitle("Nouveau Serveur")
+  .setTitle(langue["newserv"])
   .addFields(
-    {name: "Date", value: `${new Date(Date.now()).toUTCString()}`, inline: true},
-    {name: "Nombre de personnes", value: `${guild.members.length}`, inline: true},
-    {name: "Nombre de serveur", value: `${bot.guilds.length}`, inline: true}
+      {name: langue["date"], value: `${new Date(Date.now()).toUTCString()}`, inline: true},
+      {name: langue["personnes"], value: `${guild.members.length}`, inline: true},
+      {name: langue["serveurs"], value: `${bot.guilds.length}`, inline: true}
   )
-  .setColor('GREEN')
+  .setColor("RED")
   bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
 
   let sendChannel = guild.channels.find(ch => ch.type === "GuildText")
 
-  if(!bot.sql){
-    let embed = new Discord.Embed()
-    .setTitle(Langue["Hello everyone !"])
-    .setDescription(Langue["gui_cre_2"])
-    .setThumbnail(bot.user.avatarURL)
-    .setColor("#24bb2d")
-      
-    if(sendChannel) sendChannel.send({embeds: [embed]}).catch(err =>{ })
-    return
-  }
-
-  bot.sql.query(`SELECT * FROM general WHERE ID = '${guild.id}'`, async function(err, result){
-    if(!result[0]){
-      const bdd = bot.config
-      let embed = new Discord.Embed()
-      .setTitle(Langue["Hello everyone !"])
-      .addFields(
-        {name: Langue["gc_1"], value: `${Langue["gc_5"]} [${Langue["gc_6"]}](${bdd["Général"]["inviteDiscord"]}) !`, inline: true},
-        {name: Langue["gc_2"], value: `${Langue["gc_7"]} [${Langue["gc_8"]}](https://discord.com/api/oauth2/authorize?client_id=${bot.user.id}&permissions=414464658432&scope=applications.commands%20bot) ${Langue["gc_9"]} !`, inline: true},
-        {name: Langue["gc_3"], value: Langue["gc_10"], inline: true},
-        {name: Langue["gc_4"], value: Langue["gc_11"]}
-      )
-      .setThumbnail(bot.user.avatarURL)
-      .setColor("#24bb2d")
-      
-      if(sendChannel) sendChannel.send({embeds: [embed]}).catch(err =>{ })
-      bot.sql.query(`INSERT INTO general (ID, Language, guild_state) VALUES ('${guild.id}', '${bot.default_language}', 'enable')`)
-    }else{
-      bot.sql.query(`UPDATE general SET guild_state = 'enable' WHERE ID = '${guild.id}'`)
-      let embed = new Discord.Embed()
-      .setTitle(Langue["Hello everyone !"])
-      .setDescription(Langue["gui_cre_2"])
-      .setThumbnail(bot.user.avatarURL)
-      .setColor("#24bb2d")
-        
-      if(sendChannel) sendChannel.send({embeds: [embed]}).catch(err =>{ })
-    }
-  })
+  let embed = new Discord.Embed()
+  .setTitle(langue["Hello everyone !"])
+  .addFields(
+    {name: langue["gc_1"], value: `${langue["gc_5"]} [${langue["gc_6"]}](${bot.config.general["inviteDiscord"]}) !`, inline: true},
+    {name: langue["gc_2"], value: `${langue["gc_7"]} [${langue["gc_8"]}](https://discord.com/api/oauth2/authorize?client_id=${bot.user.id}&permissions=414464658432&scope=applications.commands%20bot) ${langue["gc_9"]} !`, inline: true},
+    {name: langue["gc_3"], value: langue["gc_10"], inline: true},
+    {name: langue["gc_4"], value: langue["gc_11"]}
+  )
+  .setThumbnail(bot.user.avatarURL)
+  .setColor("#24bb2d")
+  
+  if(sendChannel) sendChannel.send({embeds: [embed]}).catch(err =>{ })
 }
 
 module.exports.langues = require("../utils/getLangues")()

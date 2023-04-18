@@ -6,6 +6,6 @@ module.exports = () => {
     let path = require.resolve("../langues/eng.json").split(symbol)
     path.pop()
     path = path.join(symbol)
-    let files = fs.readdirSync(path).filter(e => e.endsWith("json")).map(e => require(`../langues/${e}`)).filter(e => e["Langue_Code"] && e["Langue"])
+    let files = fs.readdirSync(path).filter(e => e.endsWith("json")).map(e => require(`../langues/${e}`)).filter(e => e["languageCode"] && e["langue"])
     return files
 }

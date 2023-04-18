@@ -72,34 +72,36 @@ class Handler{
         let events = this.events.filter(e => [String(type).toUpperCase().replaceAll("_", ""), `${String(type).toUpperCase().replaceAll("_", "")}1`].includes(String(e.name).toUpperCase().replaceAll("_", "")) )
         events.filter(e => e).forEach(async event => {
             if(!event) return
-            if(event.name === "ready") return event.execute(bot, this.presence)
 
-            let Langue = await this.#findLangue(bot, datas, olddatas)
+            let Langue = await this.#findLangue(bot, datas, olddatas, event.name)
             
-            if(event.langues && event.langues.length) Langue = event.langues.find(e => e.Langue_Code === Langue.Langue_Code) || event.langues.find(e => e.Langue_Code === bot.config.general.language) || event.langues.find(e => e.Langue_Code === "en-US")
+            if(event.langues && event.langues.length) Langue = event.langues.find(e => e.languageCode === Langue.languageCode) || event.langues.find(e => e.languageCode === bot.config.general.language) || event.langues.find(e => e.languageCode === "en-US")
             
+            if(event.name === "ready") return event.execute(bot, this.presence, Langue)
+
             if(!olddatas) event.execute(bot, datas, Langue)
             else event.execute(bot, datas, olddatas, Langue)
         })
     }
 
 
-    async #findLangue(bot, datas, olddatas){
+    async #findLangue(bot, datas, olddatas, eventName){
         const analyse = async (defdata) => {
             let LangueIntern;
             if(defdata?.guild_id){
-                let datasGuild = bot.sql ? (await bot.sql.select("general", {ID: defdata.guild_id}).catch(err => {}))?.[0] : null
-                if(datasGuild) LangueIntern = bot.langues.find(lan => lan.Langue_Code === datasGuild.Language)
-                else LangueIntern = bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
+                let baseFoundLanguage = bot.langues.find(lan => lan.languageCode === defdata.guild.preferred_locale)
+                if(baseFoundLanguage && (!["guildcreate", "guilddelete"].includes(eventName.toLowerCase()))) LangueIntern = baseFoundLanguage
+                else LangueIntern = bot.langues.find(lan => lan.languageCode === bot.config.general.language)
             }else if (defdata?.typee === "slash"){
-                LangueIntern = bot.langues.find(lan => lan.Langue_Code === defdata.locale)
-                if(!Langue) bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
-            }else LangueIntern = bot.langues.find(lan => lan.Langue_Code === bot.config.general.language)
+                let baseFoundLanguage = bot.langues.find(lan => lan.languageCode === defdata?.locale)
+                if(baseFoundLanguage) LangueIntern = baseFoundLanguage
+                else bot.langues.find(lan => lan.languageCode === bot.config.general.language)
+            }else LangueIntern = bot.langues.find(lan => lan.languageCode === bot.config.general.language)
             return LangueIntern
         }
 
         let Langue;
-        if(datas) Langue = analyse(datas)
+        Langue = analyse(datas)
         if(!Langue && olddatas) Langue = analyse(olddatas)
         
         return Langue

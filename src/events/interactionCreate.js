@@ -1,19 +1,19 @@
 module.exports = async (bot, interaction) => {
   if(interaction.isSlash) bot.handler.analyse(bot, interaction)
-  if(interaction.isButton){
-    if(interaction.custom_id === "Response_ticket_button"){
+  else if(interaction.isButton){
+    if(interaction.custom_id === "response_ticket_button"){
       const Discord = require("@kamkam1_0/discord.js")
       const TextInput = new Discord.TextInput()
-      .setCustomID("Feedback_answer_content")
+      .setCustomID("feedback_answer_content")
       .setLabel("Contenu de votre réponse au feedback")
       .setMaxLength(1500)
       .setMinLength(20)
       .setPlaceHolder("Mettez ici le contenu de votre réponse au feedback")
       .setRequired(true)
-      .setStyle("long")
+      .setStyle("Long")
 
-      const Modal = new Discord.Form()
-      .setCustomID("Modal Feedback Answer")
+      const Modal = new Discord.Modal()
+      .setCustomID("modal_feedback_answer")
       .setTitle("Feedback")
       .AddTextInputs(TextInput)
 
@@ -23,17 +23,18 @@ module.exports = async (bot, interaction) => {
       .setFooterText(interaction.message.embeds[0].footer.text)
       .setColor(interaction.message.embeds[0].color)
       .addField(`${interaction.message.embeds[0].fields[0].name}`, `${interaction.message.embeds[0].fields[0].value} \n\n\n\`\`Feedback Answered\`\``)
-      let disbutton = interaction.message.components[0].components[0]
+      let disbutton = interaction.message.components[0]
       disbutton.disabled = true
+      
       interaction.message.modify({embeds: [replacemente], components: [disbutton]})
 
       interaction.reply({modal: Modal}).catch(err => {})
     }
   }
-  if(interaction.isForm){
-    if(interaction.custom_id === "Modal Feedback Answer"){
+  else if(interaction.isModal){
+    if(interaction.custom_id === "modal_feedback_answer"){
       const Discord = require("@kamkam1_0/discord.js")
-      let content = interaction.components.find(e => e.components[0].custom_id === "Feedback_answer_content").components[0].value
+      let content = interaction.getComponent("feedback_answer_content").value
 
       let embed = new Discord.Embed()
       .setTitle(`${interaction.user.username}#${interaction.user.discriminator} answered your feedback !`)
