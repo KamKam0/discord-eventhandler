@@ -66,7 +66,7 @@ class Handler{
         if(!name || typeof name !== "string") return "invalid name"
         let event = this.events.find(e => String(e.name).toLowerCase() === String(name).toLowerCase())
         let eventName = this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase())
-        if(event) this.events.splice(this.events.indexOf(), 1)
+        if(event) this.events.splice(this.events.indexOf(event), 1)
         if(eventName) this.names.splice(this.names.indexOf(eventName), 1)
     }
 

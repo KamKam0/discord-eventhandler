@@ -11,4 +11,4 @@ module.exports = async (bot, guild, langue) =>{
     bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
 }
 
-module.exports.langues = require("../utils/getLangues")()
+module.exports.langues = true

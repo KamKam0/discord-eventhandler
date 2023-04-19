@@ -26,4 +26,4 @@ module.exports = async (bot, guild, langue) =>{
   if(sendChannel) sendChannel.send({embeds: [embed]}).catch(err =>{ })
 }
 
-module.exports.langues = require("../utils/getLangues")()
+module.exports.langues = true

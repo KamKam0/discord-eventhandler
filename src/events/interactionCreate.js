@@ -49,3 +49,5 @@ module.exports = async (bot, interaction, Langue) => {
     }
   }
 }
+
+module.exports.langues = true

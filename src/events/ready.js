@@ -26,4 +26,4 @@ module.exports = async(bot, presence, Langue) =>{
   }
 } 
 
-module.exports.langues = require("../utils/getLangues")()
+module.exports.langues = true
