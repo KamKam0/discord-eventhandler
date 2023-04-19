@@ -24,5 +24,11 @@
     "gc_10": "Si vous voulez connaitre toutes mes commandes ou avoir de l'aide pour les exécuter, vous pouvez exécuter ma commande /help !",
     "gc_11": "Vous pouvez changer ma langue avec /language [fr/eng]",
     "Hello everyone !": "Bonjour tout le monde !",
-    "gui_cre_2": "Votre langue est sauvegardée ! Vous pouvez executer la commande ``language`` pour la changer !"
+    "gui_cre_2": "Votre langue est sauvegardée ! Vous pouvez executer la commande ``language`` pour la changer !",
+    "feedbackAnswerContent": "Contenu de votre réponse au feedback",
+    "feedbackAnswerPlaceHolder": "Mettez ici le contenu de votre réponse au feedback",
+    "feedbackAnswerTitle": "Feedback",
+    "answered": "Feedback Répondu",
+    "feedbackAnswered": "a répondu à votre feedback !",
+    "answerSent": "j'ai bien envoyé la réponse!"
 }

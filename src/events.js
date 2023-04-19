@@ -1,19 +1,39 @@
 const Event = require("./event")
 const fs = require("node:fs")
 const os = require("node:os")
+const systemLanguages = require("./utils/getLangues")()
 
 let osSymbol = "/"
 if(os.platform() === "win32") osSymbol = "\\"
 
 class Handler{
+    #systemLanguages
+
     constructor(bot, eventsar){
         this.bot = bot
+        this.#systemLanguages = systemLanguages
         this.propositions = eventsar
         this.presence = null
         this.names = []
         this.events = this.automaticAdd()
         this.bot_name = bot.name
         this.state = "undeployed"
+    }
+
+    addLanguage(json){
+        let validatedData = null;
+        try{
+            validatedData = JSON.parse(json)
+        }catch(err){
+            return this
+        }
+        if(!validatedData["commands"] || !validatedData["choices"] || !validatedData["options"] || !validatedData["languageCode"] || !validatedData["langue"]) return this
+        this.#systemLanguages.push(validatedData)
+        return this
+    }
+
+    getLanguages(){
+        return this.#systemLanguages
     }
 
     automaticAdd(){
@@ -44,8 +64,10 @@ class Handler{
 
     removeEvent(name){
         if(!name || typeof name !== "string") return "invalid name"
-        this.events.splice(this.events.indexOf(this.events.find(e => String(e.name).toLowerCase() === String(name).toLowerCase())), 1)
-        this.names.splice(this.names.indexOf(this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase())), 1)
+        let event = this.events.find(e => String(e.name).toLowerCase() === String(name).toLowerCase())
+        let eventName = this.names.find(e => String(e).toLowerCase() === String(name).toLowerCase())
+        if(event) this.events.splice(this.events.indexOf(), 1)
+        if(eventName) this.names.splice(this.names.indexOf(eventName), 1)
     }
 
     deploy(presence){
@@ -73,9 +95,9 @@ class Handler{
         events.filter(e => e).forEach(async event => {
             if(!event) return
 
-            let Langue = await this.#findLangue(bot, datas, olddatas, event.name)
+            let Langue = this.#findLangue(bot, datas, olddatas, event.name)
             
-            if(event.langues && event.langues.length) Langue = event.langues.find(e => e.languageCode === Langue.languageCode) || event.langues.find(e => e.languageCode === bot.config.general.language) || event.langues.find(e => e.languageCode === "en-US")
+            if(event.langues ) Langue = this.#systemLanguages.find(e => e.languageCode === Langue.languageCode) || this.#systemLanguages.find(e => e.languageCode === bot.config.general.language) || this.#systemLanguages.find(e => e.languageCode === "en-US")
             
             if(event.name === "ready") return event.execute(bot, this.presence, Langue)
 
@@ -85,7 +107,7 @@ class Handler{
     }
 
 
-    async #findLangue(bot, datas, olddatas, eventName){
+    #findLangue(bot, datas, olddatas, eventName){
         const analyse = async (defdata) => {
             let LangueIntern;
             if(defdata?.guild_id){

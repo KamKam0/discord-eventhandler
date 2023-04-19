@@ -25,5 +25,11 @@
     "gc_10": "If you want to know all my commands or to have help to execute them, you can execute !help command",
     "gc_11": "You can change my language with /language [fr/eng]",
     "Hello everyone !": "Hello everyone !",
-    "gui_cre_2": "Your language is saved ! You can execute the ``language`` command to change it !"
+    "gui_cre_2": "Your language is saved ! You can execute the ``language`` command to change it !",
+    "feedbackAnswerContent": "Your answer",
+    "feedbackAnswerPlaceHolder": "Enter here your answer to this feedback",
+    "feedbackAnswerTitle": "Feedback",
+    "answered": "Feedback Answered",
+    "feedbackAnswered": "answered your feedback !",
+    "answerSent": "I sent the answer !"
 }
