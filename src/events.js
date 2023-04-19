@@ -117,7 +117,7 @@ class Handler{
             }else if (defdata?.receivingType === "interaction"){
                 let baseFoundLanguage = bot.langues.find(lan => lan.languageCode === defdata?.locale)
                 if(baseFoundLanguage) LangueIntern = baseFoundLanguage
-                else bot.langues.find(lan => lan.languageCode === bot.config.general.language)
+                else LangueIntern = bot.langues.find(lan => lan.languageCode === bot.config.general.language)
             }else LangueIntern = bot.langues.find(lan => lan.languageCode === bot.config.general.language)
             return LangueIntern
         }
