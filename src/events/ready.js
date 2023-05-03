@@ -7,7 +7,7 @@ module.exports = async(bot, presence, Langue) =>{
   
   console.log(Langue["online"])
   
-  let User = bot.users.find(us => us.id === bot.config.general["ID createur"])
+  let User = bot.users.find(us => us.id === bot.config.general["creatorId"])
   if(User){
     let renduembed = new Discord.Embed()
     .setTitle(Langue["demarrage"])
@@ -21,8 +21,7 @@ module.exports = async(bot, presence, Langue) =>{
       {name: Langue["launch"], value: Langue["complete"]+" ✅", inline: true}
     )
     .setColor("#0eff27")
-    bot.messages.send(bot.creator.channel_id, {embeds: [renduembed]})
-    .catch(err => console.log(err))
+    if (bot.creator?.channel_id) bot.messages.send(bot.creator.channel_id, {embeds: [renduembed]}).catch(err => console.log(err))
   }
 } 
 
