@@ -1,6 +1,8 @@
 module.exports = async (bot, guild, langue) =>{
-    const Discord = require("@kamkam1_0/discord.js")
-    let logembed = new Discord.Embed()
+    let logChannel = bot.channels.get(bot.config.general.logChannel)
+    if (!logChannel) return
+
+    let logEmbed = new Discord.Embed()
     .setTitle(langue["oldserv"])
     .addFields(
         {name: langue["date"], value: `${new Date(Date.now()).toUTCString()}`, inline: true},
@@ -8,7 +10,8 @@ module.exports = async (bot, guild, langue) =>{
         {name: langue["serveurs"], value: `${bot.guilds.length}`, inline: true}
     )
     .setColor("RED")
-    bot.channels.get(bot.config.general["logcha"]).send({embeds: [logembed]}).catch(err => {})
+
+    logChannel.send(logEmbed).catch(err => {})
 }
 
 module.exports.langues = true
