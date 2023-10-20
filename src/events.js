@@ -108,7 +108,7 @@ class Handler{
 
 
     #findLangue(bot, datas, olddatas, eventName){
-        const analyse = async (defdata) => {
+        const analyse = (defdata) => {
             let LangueIntern;
             if(defdata?.guild_id){
                 let baseFoundLanguage = bot.langues.find(lan => lan.languageCode === defdata.guild.preferred_locale)
