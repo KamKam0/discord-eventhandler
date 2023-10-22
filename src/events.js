@@ -81,7 +81,9 @@ class Handler{
         })
         this.names.forEach(name => {
             let trueevent = this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === name.toUpperCase().replaceAll("_", "")) || this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === `GUILD_${name}`.toUpperCase().replaceAll("_", ""))
-            if(trueevent) this.bot.on(trueevent, async (bo, da, olda) => this.analyse(bo, da, olda, name))
+            if(trueevent) {
+                this.bot.on(trueevent, async (bo, da, olda, modif) => this.analyse(bo, da, olda, modif, name))
+            }
         })
     }
 
@@ -89,12 +91,8 @@ class Handler{
         return this.events
     }
 
-    async analyse(bot, datas, olddatas, type){
-
-        let events = this.events.filter(e => [String(type).toUpperCase().replaceAll("_", ""), `${String(type).toUpperCase().replaceAll("_", "")}1`].includes(String(e.name).toUpperCase().replaceAll("_", "")) )
-        events.filter(e => e).forEach(async event => {
-            if(!event) return
-
+    analyse(bot, datas, olddatas, modifs, type){
+        this.#getEvents(type).forEach(event => {
             let Langue = this.#findLangue(bot, datas, olddatas, event.name)
             
             if(event.langues ) Langue = this.#systemLanguages.find(e => e.languageCode === Langue.languageCode) || this.#systemLanguages.find(e => e.languageCode === bot.config.general.language) || this.#systemLanguages.find(e => e.languageCode === "en-US")
@@ -102,10 +100,15 @@ class Handler{
             if(event.name === "ready") return event.execute(bot, this.presence, Langue)
 
             if(!olddatas) event.execute(bot, datas, Langue)
-            else event.execute(bot, datas, olddatas, Langue)
+            else event.execute(bot, datas, olddatas, modifs, Langue)
         })
     }
 
+    #getEvents(type) {
+        return this.events
+        .filter(e => [String(type).toUpperCase().replaceAll("_", ""), `${String(type).toUpperCase().replaceAll("_", "")}1`].includes(String(e.name).toUpperCase().replaceAll("_", "")) )
+        .filter(Boolean)
+    }
 
     #findLangue(bot, datas, olddatas, eventName){
         const analyse = (defdata) => {
