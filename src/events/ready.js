@@ -11,7 +11,7 @@ module.exports = async(bot, presence, Langue) =>{
   if(User){
     let renduembed = new Discord.Embed()
     .setTitle(Langue["demarrage"])
-    .setFooterText(`${User.username}#${User.discriminator}`)
+    .setFooterText(User.tag)
     .setFooterIconURL(User.avatarURL)
     .setTimestamp()
     .setThumbnail(bot.user.avatarURL)
