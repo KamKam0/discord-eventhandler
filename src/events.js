@@ -74,7 +74,6 @@ class Handler{
         if(this.state !== "undeployed") return
         this.presence = presence
         this.state = "deployed"
-        const fs = require("node:fs")
         if(fs.readdirSync(`${process.cwd()}`).includes("Handler")) if(fs.readdirSync(`${process.cwd()}/Handler`).includes("Events")) fs.readdirSync(`${process.cwd()}/Handler/Events`).filter(e => e!==".DS_Store").forEach(dir => {
             let file = require(`${process.cwd()}/Handler/Events/${dir}`)
             this.addEvent(dir.split(".")[0], file)

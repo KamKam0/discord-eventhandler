@@ -1,5 +1,7 @@
+const Discord = require("@kamkam1_0/discord.js")
+const ms = require("@kamkam1_0/ms")
+
 module.exports = async(bot, presence, Langue) =>{
-  const Discord = require("@kamkam1_0/discord.js")
   
   let vraitestdate = Date.now()
   
@@ -16,8 +18,8 @@ module.exports = async(bot, presence, Langue) =>{
     .setTimestamp()
     .setThumbnail(bot.user.avatarURL)
     .addFields(
-      {name: Langue["lancement"], value: `${require("@kamkam1_0/ms")(Number(Date.now() - bot.ws.discordSide.lancement))}`, inline: true},
-      {name: Langue["checks"], value: `${require("@kamkam1_0/ms")(Number(Date.now() - vraitestdate))}`, inline: true},
+      {name: Langue["lancement"], value: `${ms(Number(Date.now() - bot.ws.discordSide.lancement))}`, inline: true},
+      {name: Langue["checks"], value: `${ms(Number(Date.now() - vraitestdate))}`, inline: true},
       {name: Langue["launch"], value: Langue["complete"]+" ✅", inline: true}
     )
     .setColor("#0eff27")

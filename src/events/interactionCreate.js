@@ -1,8 +1,9 @@
+const Discord = require("@kamkam1_0/discord.js")
+
 module.exports = async (bot, interaction, Langue) => {
   if(interaction.isSlash) bot.handler.analyse(bot, interaction)
   else if(interaction.isButton){
     if(interaction.custom_id === "response_ticket_button"){
-      const Discord = require("@kamkam1_0/discord.js")
       const TextInput = new Discord.TextInput()
       .setCustomID("feedback_answer_content")
       .setLabel(Langue["feedbackAnswerContent"])
@@ -33,14 +34,13 @@ module.exports = async (bot, interaction, Langue) => {
   }
   else if(interaction.isModal){
     if(interaction.custom_id === "modal_feedback_answer"){
-      const Discord = require("@kamkam1_0/discord.js")
       let content = interaction.getComponent("feedback_answer_content").value
 
       let embed = new Discord.Embed()
       .setTitle(`${interaction.user.username}#${interaction.user.discriminator} ${Langue["feedbackAnswered"]}`)
       .setDescription("```" + content + "```")
       .setColor('#36393F')
-      bot.users.get(interaction.user.id).send({embeds: [embed]})
+      bot.users.get(interaction.user.id)?.send({embeds: [embed]})
       .catch(err => {})
       let resem = new Discord.Embed()
       .setDescription(`<@${interaction.user.id}>, ${Langue["answerSent"]}`)
