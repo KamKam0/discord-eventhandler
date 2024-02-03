@@ -74,10 +74,20 @@ class Handler{
         if(this.state !== "undeployed") return
         this.presence = presence
         this.state = "deployed"
-        if(fs.readdirSync(`${process.cwd()}`).includes("Handler")) if(fs.readdirSync(`${process.cwd()}/Handler`).includes("Events")) fs.readdirSync(`${process.cwd()}/Handler/Events`).filter(e => e!==".DS_Store").forEach(dir => {
-            let file = require(`${process.cwd()}/Handler/Events/${dir}`)
+
+        let handlerDir = fs.readdirSync(`${process.cwd()}`).find(dir => dir.toLowerCase() === "handler")
+        if (!handlerDir) return
+
+        let eventsDir = fs.readdirSync(`${process.cwd()}/${handlerDir}`).find(dir => dir.toLowerCase() === 'events')
+        if (!eventsDir) return
+
+        fs.readdirSync(`${process.cwd()}/${handlerDir}/${eventsDir}`)
+        .filter(e => e!==".DS_Store")
+        .forEach(dir => {
+            let file = require(`${process.cwd()}/${handlerDir}/${eventsDir}/${dir}`)
             this.addEvent(dir.split(".")[0], file)
         })
+
         this.names.forEach(name => {
             let trueevent = this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === name.toUpperCase().replaceAll("_", "")) || this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === `GUILD_${name}`.toUpperCase().replaceAll("_", ""))
             if(trueevent) {
