@@ -76,10 +76,16 @@ class Handler{
         this.state = "deployed"
 
         let handlerDir = fs.readdirSync(`${process.cwd()}`).find(dir => dir.toLowerCase() === "handler")
-        if (!handlerDir) return
+        if (!handlerDir) {
+            this.#enableEventsTrigger()
+            return
+        }
 
         let eventsDir = fs.readdirSync(`${process.cwd()}/${handlerDir}`).find(dir => dir.toLowerCase() === 'events')
-        if (!eventsDir) return
+        if (!eventsDir) {
+            this.#enableEventsTrigger()
+            return
+        }
 
         fs.readdirSync(`${process.cwd()}/${handlerDir}/${eventsDir}`)
         .filter(e => e!==".DS_Store")
@@ -88,12 +94,7 @@ class Handler{
             this.addEvent(dir.split(".")[0], file)
         })
 
-        this.names.forEach(name => {
-            let trueevent = this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === name.toUpperCase().replaceAll("_", "")) || this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === `GUILD_${name}`.toUpperCase().replaceAll("_", ""))
-            if(trueevent) {
-                this.bot.on(trueevent, async (bo, da, olda, modif) => this.analyse(bo, da, olda, modif, name))
-            }
-        })
+        this.#enableEventsTrigger()
     }
 
     getAll(){
@@ -110,6 +111,15 @@ class Handler{
 
             if(!olddatas) event.execute(bot, datas, Langue)
             else event.execute(bot, datas, olddatas, modifs, Langue)
+        })
+    }
+
+    #enableEventsTrigger() {
+        this.names.forEach(name => {
+            let trueevent = this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === name.toUpperCase().replaceAll("_", "")) || this.propositions.find(proposition => proposition.toUpperCase().replaceAll("_", "") === `GUILD_${name}`.toUpperCase().replaceAll("_", ""))
+            if(trueevent) {
+                this.bot.on(trueevent, async (bo, da, olda, modif) => this.analyse(bo, da, olda, modif, name))
+            }
         })
     }
 
